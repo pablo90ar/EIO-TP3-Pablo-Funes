@@ -10,35 +10,32 @@ from pulp import LpProblem, LpMinimize, LpStatus, LpVariable, lpSum, value
 pp = pprint.PrettyPrinter()
 
 
-# Esta función toma como parámetro el objeto tipo "Exercise" y realiza el cálculo de optimización con la librería PuLP
+# Esta función toma como parámetro el objeto tipo "Exercise" y realiza el cálculo de asignación con la librería PuLP
 def resolve(ex: Exercise):
     # Borra la consola
     Printer.clear_console()
     Printer.print_exercise_title(ex.number)
     # Muestra los valores del ejercicio en formato pedido por PuLP
-    print("\nOrígenes: " + str(ex.agent_name))
-    print("\nDestinos: " + str(ex.task_name))
-    offer = {}
+    print("\nAgentes: " + str(ex.agent_name))
+    print("\nTareas: " + str(ex.task_name))
+    print("\nRendimientos: " + str(ex.value))
+
+    Printer.press_enter_to("volver al menú")
+'''
+    cell_value = {}
     for i in range(ex.get_row_num()):
-        offer.update({ex.agent_name[i]: ex.offer[i]})
-    print("\nOferta: " + str(offer))
-    demand = {}
-    for i in range(ex.get_column_num()):
-        demand.update({ex.task_name[i]: ex.demand[i]})
-    print("\nDemanda: " + str(demand))
-    cost = {}
-    for i in range(ex.get_row_num()):
-        cost.update({ex.agent_name[i]: {}})
+        cell_value.update({ex.agent_name[i]: {}})
         for j in range(ex.get_column_num()):
-            cost[ex.agent_name[i]].update({ex.task_name[j]: ex.value[i][j]})
-    print("\nCostos:")
-    pp.pprint(cost)
+            cell_value[ex.agent_name[i]].update({ex.task_name[j]: ex.value[i][j]})
+    print("\nRendimientos: ")
+    pp.pprint(cell_value)
+
 
     # Inicia el cálculo del ejercicio
     problem = LpProblem("Transporte", LpMinimize)
     routes = [(i, j) for i in ex.agent_name for j in ex.task_name]
     amount = LpVariable.dicts("Cantidades", (ex.agent_name, ex.task_name), 0)
-    problem += lpSum(amount[i][j] * cost[i][j] for (i, j) in routes)
+    problem += lpSum(amount[i][j] * cell_value[i][j] for (i, j) in routes)
     # Restricciones
     for j in ex.task_name:
         problem += lpSum(amount[i][j] for i in ex.agent_name) == demand[j]
@@ -58,4 +55,4 @@ def resolve(ex: Exercise):
             print(v.name, "=", v.varValue)
     print("El costo mínimo es:", value(problem.objective))
     # Vuelve al menú principal
-    Printer.press_enter_to("volver al menú")
+'''

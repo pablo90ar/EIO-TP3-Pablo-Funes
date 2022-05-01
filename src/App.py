@@ -26,7 +26,8 @@ while menu_option < 3:
         # Se muestra el ejercicio elegido en pantalla
         Printer.print_exercise(ex)
         Printer.press_enter_to("iniciar la resolución")
-        ex_data_ok = Utils.check_data_completeness(ex) and Utils.check_data_balance(ex)
+        # Se controla que el formato del ejercicio sea correcto
+        ex_data_ok = Utils.check_data_completeness(ex)
         if ex_data_ok:
             # Resuelve el ejercicio y presenta los resultados
             Resolver.resolve(ex)
@@ -34,13 +35,14 @@ while menu_option < 3:
     elif menu_option == 2:
         # Borra la pantalla
         Printer.clear_console()
-        # Se inicia la carga manual
+        # Se inicia la carga manual de datos
         print("Resolver un ejercicio ingresando datos manualmente.\n")
         ex = Loader.load_custom_exercise()
         Printer.clear_console()
         Printer.print_dynamic_table(ex)
         Printer.press_enter_to("iniciar la resolución")
-        ex_data_ok = Utils.check_data_balance(ex)
+        # Se controla que el formato del ejercicio sea correcto
+        ex_data_ok = True
         if ex_data_ok:
             # Resuelve el ejercicio y presenta los resultados
             Resolver.resolve(ex)

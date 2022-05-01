@@ -35,10 +35,10 @@ def load_custom_exercise():
     ex = Exercise()
     ex.agent_type = input("Paso 1/11 - Ingrese el tipo de agente. Valor por defecto: [Agentes] ") or "Agentes"
     ex.task_type = input("Paso 2/11 - Ingrese el tipo de tarea. Valor por defecto: [Tareas] ") or "Tareas"
-    agent_number = int(
-        input("Paso 3/11 - Ingrese la cantidad de agentes (filas) de la tabla. Valor por defecto: [3] ") or 3)
-    task_number = int(
-        input("Paso 4/11 - Ingrese la cantidad de tareas (columnas) de la tabla. Valor por defecto: [4] ") or 4)
+    input_msj = "Paso 3/11 - Ingrese la cantidad de agentes (filas) de la tabla. (mínimo 2) "
+    agent_number = Utils.check_equal_or_greater(input_msj, 2)
+    input_msj = "Paso 4/11 - Ingrese la cantidad de tareas (columnas) de la tabla. (mínimo 2) "
+    task_number = Utils.check_equal_or_greater(input_msj, 2)
     for i in range(agent_number):
         num = str(i + 1)
         ex.agent_name.append(input("Paso 5/11 - Dato " + str(num) + "/" + str(agent_number)
@@ -55,5 +55,5 @@ def load_custom_exercise():
             input_msj = "Paso 7/11 - Dato " + str(i * task_number + j + 1) + "/" \
                         + str(agent_number * task_number) + " Ingrese el rendimiento de " \
                         + ex.agent_name[i] + " para la tarea " + ex.task_name[j] + "."
-            ex.value[i].append(Utils.check_int_input_positive(input_msj))
+            ex.value[i].append(Utils.check_equal_or_greater(input_msj))
     return ex

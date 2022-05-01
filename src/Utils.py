@@ -41,15 +41,15 @@ def check_int_input_range(var_name: str, min_value: int, max_value: int):
 
 
 # Corrobora que un dato de teclado sea entero y positivo
-def check_int_input_positive(msj: str):
+def check_equal_or_greater(msj: str, v_min: int = 0):
     check_ok = False
     int_value = None
     while not check_ok:
         int_value = input(msj)
-        if int_value.isdigit() and int(int_value) >= 0:
+        if int_value.isdigit() and int(int_value) >= v_min:
             check_ok = True
         else:
-            print("Ingreso incorrecto. Ingrese Un número igual o mayor a cero.")
+            print("Ingreso incorrecto. Ingrese Un número igual o mayor a " + str(v_min) + ".")
     return int(int_value)
 
 
