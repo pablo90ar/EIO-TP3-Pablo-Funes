@@ -1,3 +1,10 @@
-# EIO-TP3-Pablo-Funes edit
+# EIO-TP3-Pablo-Funes
 
-Resolucion de problemas de asignacion con librería PuLP en Python
+Resolución de problemas de asignación con librería PuLP en Python
+
+Requerimientos para ejecutar la app:
+Python v3.x
+Git Bash (Linux) o Powershell (Windows)
+
+Instrucciones para ejecutar la app:
+bash python ./src/App.py
