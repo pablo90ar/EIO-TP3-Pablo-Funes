@@ -30,6 +30,7 @@ class Exercise:
         self.coef_name = ""
         self.minimize = True
 
+
     # Función que devuelve el número de columnas de la tabla de valores de un ejercicio
     def get_column_num(self):
         return len(self.value[0])
@@ -37,6 +38,39 @@ class Exercise:
     # Función que devuelve el número de filas de la tabla de valores de un ejercicio
     def get_row_num(self):
         return len(self.value)
+
+    def generate_dummy_cells(self):
+        extra_rows = self.get_row_num() - self.get_column_num()
+        # Si hay más filas que columnas... (rectángulo vertical)
+        if extra_rows > 0:
+            # Para la fila de tareas
+            for x in range(extra_rows):
+                # Se le agrega un título de columna extra
+                self.task_name.append("Dummy Task"+str(x+1))
+            # Para cada fila de la tabla...
+            for r in range(self.get_row_num()):
+                # Por cada fila extra que esta tenga...
+                for x in range(extra_rows):
+                    # Se le agrega un cero al final
+                    self.value[r].append(0)
+        # Si hay más columnas que filas... (rectángulo horizontal)
+        if extra_rows < 0:
+            extra_cols = -1*extra_rows
+            # Para la columna de agentes
+            for x in range(extra_cols):
+                # Se le agrega un título de fila extra
+                self.agent_name.append("Dummy Agent "+str(x+1))
+                # Se le agrega una fila vacía extra
+                self.value.append([])
+                # Y se llena esa fila extra con un 0 por columna
+                for r in range(self.get_column_num()):
+                    self.value[-1].append(0)
+
+
+
+
+
+
 
     # Referencia de las variables usadas:
     """

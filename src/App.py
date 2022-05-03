@@ -29,6 +29,9 @@ while menu_option < 3:
         # Se controla que el formato del ejercicio sea correcto
         ex_data_ok = Utils.check_data_completeness(ex)
         if ex_data_ok:
+            # se controla que la matriz sea cuadrada
+            if not Utils.check_square_data(ex):
+                ex.generate_dummy_cells()
             # Resuelve el ejercicio y presenta los resultados
             MainSolver.resolve(ex)
     # Si la opción elegida es la 2 resuelve ejercicio personalizado...

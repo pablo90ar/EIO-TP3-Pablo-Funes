@@ -27,6 +27,7 @@ def load_known_exercise(ex_num):
     ex.value = exercise["value"]
     ex.coef_name = exercise["coef_name"]
     ex.minimize = exercise["minimize"]
+    ex.generate_dummy_cells()
     return ex
 
 
@@ -38,10 +39,9 @@ def load_custom_exercise():
     ex.agent_type = input("Paso 1/11 - Ingrese el tipo de agente. Valor por defecto: [Agentes] ") or "Agentes"
     ex.task_type = input("Paso 2/11 - Ingrese el tipo de tarea. Valor por defecto: [Tareas] ") or "Tareas"
     ex.coef_name = input("Paso 3/11 - Ingrese el tipo de valores. Valor por defecto: [costo (en $)] ") or "costo (en $)"
-    input_msj = "Paso 4/11 - Ingrese la cantidad de agentes (filas) de la tabla. (mínimo 2) "
+    input_msj = "Paso 4/11 - Ingrese la cantidad de agentes (filas) y de tareas (columnas) de la tabla. (mínimo 2) "
     agent_number = Utils.check_equal_or_greater(input_msj, 2)
-    input_msj = "Paso 5/11 - Ingrese la cantidad de tareas (columnas) de la tabla. (mínimo 2) "
-    task_number = Utils.check_equal_or_greater(input_msj, 2)
+    task_number = agent_number
     for i in range(agent_number):
         num = str(i + 1)
         ex.agent_name.append(input("Paso 6/11 - Dato " + str(num) + "/" + str(agent_number)

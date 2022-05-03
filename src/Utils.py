@@ -62,7 +62,18 @@ def check_data_completeness(ex: Exercise):
     if all(x == row_len[0] for x in row_len):
         return True
     else:
-        print("Error: La tabla de costos de transporte está incompleta.")
+        print("Error: La tabla está incompleta.")
         Printer.press_enter_to("volver al menu")
         return False
 
+
+# Comprueba si los datos de un ejercicio obedecen a una matriz cuadrada
+def check_square_data(ex: Exercise):
+    rows = ex.get_row_num()
+    cols = ex.get_column_num()
+    if rows == cols:
+        return True
+    else:
+        print("Error: La tabla no es cuadrada.")
+        Printer.press_enter_to("volver al menu")
+        return False

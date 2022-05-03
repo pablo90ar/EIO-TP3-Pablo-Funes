@@ -40,7 +40,7 @@ def _new_solution(c_list: list, prob: LpProblem, assign: list, solution: dict, s
         if v.varValue == 1.0:
             solution_row = "Se asigna el agente \"" + agent + "\""
             solution_row += " a la tarea \"" + task
-            solution_row += "\" siendo su " + exercise.coef_name + " de " + str(coef_value) + "\"." # str(v.dj) + "\"."
+            solution_row += "\" siendo su " + exercise.coef_name + " de " + str(coef_value) + "\"."  # str(v.dj) + "\"."
 
             # Agrega un renglón de asignación al diccionario solución
             solution["assignments"].append(solution_row)
@@ -69,10 +69,8 @@ def resolve(exercise: Exercise):
 
     constrain_list = []  # Lista de restricciones a agregar
     solutions = []  # Lista de soluciones para imprimir todas juntas en pantalla
-    limit = 0  #
     calc_count = 0
     best_result = 0
-    print("soluciones:", len(solutions))
     solved = False
     while not solved:
         sol_count = len(solutions)
@@ -80,37 +78,43 @@ def resolve(exercise: Exercise):
         sol_type = LpStatus[prob.status]
         solution = {"sol_num": sol_count + 1}
 
+        # Si no encuentra más resultados...
+        if sol_type is "Infeasible":
+            _print_solution(solutions)
+            print("\nNo existen más soluciones.")
+            Printer.press_enter_to("volver al menú")
+            break
+
         # Si se encuentra un resultado...
-        if sol_type == "Optimal":
+        elif sol_type == "Optimal":
             if calc_count == 0:
-                solution.update({"sol_type": "Factible Óptima Única"})
+                solution.update({"sol_type": "Factible Óptima"})
                 best_result = value(prob.objective)
 
             # si no es el primer cálculo, y se trata de una solución factible óptima...
             if calc_count > 0 and best_result == value(prob.objective):
-                limit += 1
                 solutions[0]["sol_type"] = "Factible Óptima Alternativa"
-                solution.update({"sol_type": "Factible Óptima Alternativa"})
+                solution["sol_type"] = "Factible Óptima Alternativa"
 
             # si no es el primer cálculo, y se trata de una solución factible no óptima...
             if calc_count > 0 and best_result != value(prob.objective):
-                _print_solution(solutions)
-                limit = calc_count
-                confirm = input('\nPresione "Enter" para calcular la siguiente solución alternativa (si la hay). Para salir ingrese "s". ')
-                if confirm is "s":
-                    solved = True
-                else:
-                    solution.update({"sol_type": "Factible Alternativa (no óptima)"})
+                solution["sol_type"] = "Factible Alternativa (no óptima)"
 
-            if not solved:
-                # Agrega el diccionario solución a la lista de soluciones
-                solutions.append(_new_solution(constrain_list, prob, assign, solution, sol_count, exercise))
-                _print_solution(solutions)
-                calc_count += 1
+            # Agrega el diccionario solución a la lista de soluciones
+            solutions.append(_new_solution(constrain_list, prob, assign, solution, sol_count, exercise))
 
-        # Si no encuentra más resultados...
-        if sol_type is "Infeasible":
-            solved = True
-            _print_solution(solutions)
-            print("\nNo existen más soluciones.")
-            Printer.press_enter_to("volver al menú")
+            if calc_count > 0 and solutions[-1]["assignments"] == solutions[-2]["assignments"]:
+                solutions[0]["sol_type"] = "Factible Óptima"
+                solutions.pop(-1)
+                _print_solution(solutions)
+                print("\nNo existen más soluciones.")
+                Printer.press_enter_to("volver al menú")
+                break
+            else:
+                # Imprime la lista de soluciones
+                _print_solution(solutions)
+            confirm = input(
+                '\nPresione "Enter" para calcular la siguiente (si la hay). Para salir ingrese "s". ')
+            if confirm is "s":
+                solved = True
+            calc_count += 1
