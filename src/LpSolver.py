@@ -22,7 +22,7 @@ def optimize(ex: Exercise, constrain_list: list):
     assign = [(i, j) for i in ex.agent_name for j in ex.task_name]
 
     # Crea un diccionario 'value_dict' para contener las variables referenciadas
-    value_dict = LpVariable.dicts("Asignación", (ex.agent_name, ex.task_name), 0, None, LpBinary)
+    value_dict = LpVariable.dicts("Asignación", (ex.agent_name, ex.task_name), 0, 1, LpBinary)
 
     # La función "objetivo" es agregada a la variable que almacena el problema("prob")
     prob += (lpSum([value_dict[i][j] * values[i][j] for (i, j) in assign]), "Suma",)
@@ -44,7 +44,9 @@ def optimize(ex: Exercise, constrain_list: list):
             if ex.minimize:
                 prob += lpSum(item for item in item_list) <= ex.get_row_num() - 1
             else:
-                prob += lpSum(item for item in item_list) >= ex.get_row_num() - 1
+                prob += lpSum(item for item in item_list) >= ex.get_row_num() + 1
+
+
 
     # El problema se resuelve usando la función correspondiente de PuLP.
     prob.solve()

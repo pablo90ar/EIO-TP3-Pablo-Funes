@@ -14,7 +14,7 @@ pp = pprint.PrettyPrinter()
 
 
 # imprime la lista de soluciones agrandándola a medida que el usuario solicita más resultados
-def print_solution(solutions: list):
+def _print_solution(solutions: list):
     Printer.clear_console()
     for s in solutions:
         print("\nSolución N°:", s["sol_num"])
@@ -25,17 +25,22 @@ def print_solution(solutions: list):
 
 
 # devuelve una solución con el formato de restricción para ser agregada al próximo cálculo
-def new_solution(c_list: list, prob: LpProblem, assign: list, solution: dict, sol_count: int, exercise: Exercise):
+def _new_solution(c_list: list, prob: LpProblem, assign: list, solution: dict, sol_count: int, exercise: Exercise):
     # Agrega las asignaciones de agentes a tareas a la solución
     c_list.append([])
     i = 0
     a_num = 1
     solution.update({"assignments": []})
     for v in prob.variables():
+        agent = assign[i][0]
+        task = assign[i][1]
+        agent_index = exercise.agent_name.index(agent)
+        task_index = exercise.task_name.index(task)
+        coef_value = exercise.value[agent_index][task_index]
         if v.varValue == 1.0:
-            solution_row = "Se asigna el agente \"" + assign[i][0] + "\""
-            solution_row += " a la tarea \"" + assign[i][1]
-            solution_row += "\" siendo su " + exercise.coef_name + " de " + str(v.dj) + "\"."
+            solution_row = "Se asigna el agente \"" + agent + "\""
+            solution_row += " a la tarea \"" + task
+            solution_row += "\" siendo su " + exercise.coef_name + " de " + str(coef_value) + "\"." # str(v.dj) + "\"."
 
             # Agrega un renglón de asignación al diccionario solución
             solution["assignments"].append(solution_row)
@@ -47,14 +52,13 @@ def new_solution(c_list: list, prob: LpProblem, assign: list, solution: dict, so
 
     # Agrega el valor encontrado al dict "solution"
     solution.update({"sol_obj": value(prob.objective)})
-
     return solution
 
 
 # Esta función toma como parámetro el objeto tipo "Exercise" y realiza el cálculo de asignación con la librería PuLP
 def resolve(exercise: Exercise):
     # Borra la consola
-    Printer.clear_console()
+    # Printer.clear_console()
     Printer.print_exercise_title(exercise.number)
     # Muestra los valores del ejercicio en formato pedido por PuLP
     print("\nAgentes: " + str(exercise.agent_name))
@@ -90,7 +94,7 @@ def resolve(exercise: Exercise):
 
             # si no es el primer cálculo, y se trata de una solución factible no óptima...
             if calc_count > 0 and best_result != value(prob.objective):
-                print_solution(solutions)
+                _print_solution(solutions)
                 limit = calc_count
                 confirm = input('\nPresione "Enter" para calcular la siguiente solución alternativa (si la hay). Para salir ingrese "s". ')
                 if confirm is "s":
@@ -100,13 +104,13 @@ def resolve(exercise: Exercise):
 
             if not solved:
                 # Agrega el diccionario solución a la lista de soluciones
-                solutions.append(new_solution(constrain_list, prob, assign, solution, sol_count, exercise))
-                print_solution(solutions)
+                solutions.append(_new_solution(constrain_list, prob, assign, solution, sol_count, exercise))
+                _print_solution(solutions)
                 calc_count += 1
 
         # Si no encuentra más resultados...
         if sol_type is "Infeasible":
             solved = True
-            print_solution(solutions)
+            _print_solution(solutions)
             print("\nNo existen más soluciones.")
             Printer.press_enter_to("volver al menú")
