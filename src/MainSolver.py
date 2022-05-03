@@ -58,7 +58,7 @@ def _new_solution(c_list: list, prob: LpProblem, assign: list, solution: dict, s
 # Esta función toma como parámetro el objeto tipo "Exercise" y realiza el cálculo de asignación con la librería PuLP
 def resolve(exercise: Exercise):
     # Borra la consola
-    # Printer.clear_console()
+    Printer.clear_console()
     Printer.print_exercise_title(exercise.number)
     # Muestra los valores del ejercicio en formato pedido por PuLP
     print("\nAgentes: " + str(exercise.agent_name))
