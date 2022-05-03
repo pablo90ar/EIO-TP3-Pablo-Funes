@@ -15,6 +15,8 @@ class Exercise:
     task_type: str  # Nombre de la fila de tareas
     task_name: list  # Lista con los nombres de las tareas
     value: list  # value[i][j] Es el rendimiento del agente(i) en la tarea(j)
+    coef_name: str  # El tipo de unidad de los valores. Por ejemplo rendimiento, costo, tiempo, etc.
+    minimize: bool  # El modo de optimización. Puede ser "minimizar" o "maximizar" resultado
 
     def __init__(self):
         self.number = 0
@@ -25,6 +27,8 @@ class Exercise:
         self.task_type = ""
         self.task_name = []
         self.value = []
+        self.coef_name = ""
+        self.minimize = True
 
     # Función que devuelve el número de columnas de la tabla de valores de un ejercicio
     def get_column_num(self):

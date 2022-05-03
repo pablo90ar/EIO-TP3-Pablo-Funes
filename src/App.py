@@ -6,7 +6,7 @@ Este es el archivo raíz del proyecto, y es el que debe ejecutarse para correr e
 import Printer
 import Utils
 import Loader
-import Resolver
+import MainSolver
 
 menu_option = 0
 Printer.print_welcome_msj()
@@ -30,7 +30,7 @@ while menu_option < 3:
         ex_data_ok = Utils.check_data_completeness(ex)
         if ex_data_ok:
             # Resuelve el ejercicio y presenta los resultados
-            Resolver.resolve(ex)
+            MainSolver.resolve(ex)
     # Si la opción elegida es la 2 resuelve ejercicio personalizado...
     elif menu_option == 2:
         # Borra la pantalla
@@ -45,7 +45,7 @@ while menu_option < 3:
         ex_data_ok = True
         if ex_data_ok:
             # Resuelve el ejercicio y presenta los resultados
-            Resolver.resolve(ex)
+            MainSolver.resolve(ex)
     # Si la opción elegida es la 3 solicita confirmación de salida...
     elif menu_option == 3:
         # Solicita confirmar la acción
