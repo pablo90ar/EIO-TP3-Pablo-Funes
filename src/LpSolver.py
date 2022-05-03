@@ -46,8 +46,6 @@ def optimize(ex: Exercise, constrain_list: list):
             else:
                 prob += lpSum(item for item in item_list) >= ex.get_row_num() + 1
 
-
-
     # El problema se resuelve usando la función correspondiente de PuLP.
     prob.solve()
 

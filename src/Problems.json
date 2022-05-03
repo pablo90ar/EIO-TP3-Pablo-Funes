@@ -9,7 +9,6 @@
       "agent_name": ["Trabajo 1", "Trabajo 2","Trabajo 3", "Trabajo 4"],
       "task_type": "Máquinas",
       "task_name": ["Máquina 1", "Máquina 2", "Máquina 3", "Máquina 4"],
-      "value2": [[10,14,16,13],[12,13,15,12],[9,12,12,11],[14,16,18,16]],
       "value":[[1,8,15,22],[13,18,23,28],[13,18,23,28],[19,23,27,31]],
       "coef_name": "tiempo (en horas)",
       "minimize": true
@@ -106,8 +105,7 @@
       "agent_name": ["Anderson", "Sweeney","Williams", "McKinney"],
       "task_type": "Curso",
       "task_name": ["Estadística", "Administración", "Finanzas","Economía"],
-      "value1": [[90,65,95,40],[70,60,80,75],[85,40,80,60],[55,80,65,55]],
-      "value": [[70,60,95,40],[70,60,80,75],[85,40,80,60],[70,60,80,75]],
+      "value": [[90,65,95,40],[70,60,80,75],[85,40,80,60],[55,80,65,55]],
       "coef_name": "desempeño",
       "minimize": false
     },
